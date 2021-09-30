@@ -11,29 +11,27 @@ namespace WebAPIDemo.Controllers
     [ApiController]
     public class TagController : ControllerBase
     {
-        private static readonly List<Tag> _tags = new List<Tag>();
+        private readonly TagDbContext _dbContext;
 
-        private readonly ILogger<TagController> _logger;
-
-        public TagController(ILogger<TagController> logger)
+        public TagController(TagDbContext dbContext)
         {
-            _logger = logger;
+            _dbContext = dbContext;
         }
 
         [Route("tags")]
         [HttpGet]
         public IEnumerable<Tag> Get()
         {
-            return _tags;
+            return _dbContext.Tags.ToList();
         }
 
         [Route("tag")]
         [HttpPost]
         public CreatedResult Post(DTOTag dtoTag)
         {
-            var host = HttpContext.Request.Host.Host;
+            var client = HttpContext.Connection.RemoteIpAddress.ToString();
 
-            var tag = _tags.Where(tag => tag.Source == host).FirstOrDefault();
+            var tag = _dbContext.Tags.Where(tag => tag.Source == client).FirstOrDefault();
             if (tag != null)
             {
                 tag.Message = dtoTag.Message;
@@ -44,14 +42,16 @@ namespace WebAPIDemo.Controllers
                 var rand = new Random();
                 tag = new Tag()
                 {
-                    Source = host,
+                    Source = client,
                     Message = dtoTag.Message,
                     Font = dtoTag.Font,
                     Rotation = rand.NextDouble() * 30.0
                 };
-                _tags.Add(tag);
+                _dbContext.Tags.Add(tag);
             }
-            
+
+            _dbContext.SaveChanges();
+
             return new CreatedResult("tags", tag);
         }
     }

@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebAPIDemo
 {
@@ -26,6 +27,8 @@ namespace WebAPIDemo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<TagDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DbContext")));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -43,6 +46,11 @@ namespace WebAPIDemo
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebAPIDemo v1"));
             }
+
+            app.UseCors(b => b
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true));
 
             app.UseHttpsRedirection();
 
