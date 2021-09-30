@@ -1,5 +1,10 @@
 #main{
-    color: #c9c9c9;
+    background-color: #c9c9c9;
     width: 100%;
     min-height: 80%;
+}
+
+p {
+    padding: 20px;
+    font-size: 50px;
 }

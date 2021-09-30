@@ -3,8 +3,8 @@ form.addEventListener('submit', async function(event){
     event.preventDefault();
 
     let tag = {
-        messasge: form.message,
-        font: form.elements.font
+        message: form.elements.message.value,
+        font: form.elements.font.value
     };
 
     let response = await fetch('https://5.150.234.187/tag', {
@@ -18,7 +18,7 @@ form.addEventListener('submit', async function(event){
     let result = await response.json();
 
     console.log(response);
-    console.log(body);
+    console.log(result);
 
     alert("inskickad");
 
@@ -33,14 +33,13 @@ form.addEventListener('submit', async function(event){
     let response = await fetch('https://5.150.234.187/tags');
     let result = await response.json();
 
-    let array = JSON.parse(result);
-    array.forEach(tag => {
+    result.forEach(tag => {
          let p = document.createElement("p");
 
          p.innerHTML = tag.message;
          p.style.rotation = tag.rotation + "deg";
-         p.style.font = "30px " + tag.font;
-         
+         p.style.fontFamily = tag.font;
+
         parent.appendChild(p);
     });
 })();
