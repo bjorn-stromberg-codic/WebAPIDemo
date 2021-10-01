@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
@@ -18,13 +19,15 @@ namespace WebAPIDemo.Controllers
             _dbContext = dbContext;
         }
 
+        // GET /tags
         [Route("tags")]
         [HttpGet]
-        public IEnumerable<Tag> Get()
+        public List<Tag> Get()
         {
             return _dbContext.Tags.ToList();
         }
 
+        // POST /tag
         [Route("tag")]
         [HttpPost]
         public CreatedResult Post(DTOTag dtoTag)
@@ -51,7 +54,7 @@ namespace WebAPIDemo.Controllers
             }
 
             _dbContext.SaveChanges();
-
+            
             return new CreatedResult("tags", tag);
         }
     }
