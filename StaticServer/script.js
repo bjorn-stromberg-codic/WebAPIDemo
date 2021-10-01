@@ -10,7 +10,7 @@ const server = 'https://5.150.234.187';
          const p = document.createElement("p");
 
          p.innerHTML = tag.message;
-         p.style.rotation = tag.rotation + 'deg';
+         p.style.transform = 'rotate(' + (tag.rotation - 15) + 'deg)';
          p.style.fontFamily = tag.font;
 
         parent.appendChild(p);
