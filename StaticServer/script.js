@@ -1,13 +1,32 @@
+const server = 'https://5.150.234.187';
+
+(async function(){
+    const parent = document.getElementById('main');
+    
+    const response = await fetch(server + '/tags');
+    const result = await response.json();
+
+    result.forEach(tag => {
+         const p = document.createElement("p");
+
+         p.innerHTML = tag.message;
+         p.style.rotation = tag.rotation + 'deg';
+         p.style.fontFamily = tag.font;
+
+        parent.appendChild(p);
+    });
+})();
+
 const form = document.getElementById('form');
 form.addEventListener('submit', async function(event){
     event.preventDefault();
 
-    let tag = {
+    const tag = {
         message: form.elements.message.value,
         font: form.elements.font.value
     };
 
-    let response = await fetch('https://5.150.234.187/tag', {
+    const response = await fetch(server + '/tag', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8'
@@ -15,31 +34,12 @@ form.addEventListener('submit', async function(event){
         body: JSON.stringify(tag)
     });
 
-    let result = await response.json();
+    const result = await response.json();
 
     console.log(response);
     console.log(result);
-
-    alert("inskickad");
 
     location.reload(true);
 
     return false;
 });
-
-(async function(){
-    const parent = document.getElementById("main");
-    
-    let response = await fetch('https://5.150.234.187/tags');
-    let result = await response.json();
-
-    result.forEach(tag => {
-         let p = document.createElement("p");
-
-         p.innerHTML = tag.message;
-         p.style.rotation = tag.rotation + "deg";
-         p.style.fontFamily = tag.font;
-
-        parent.appendChild(p);
-    });
-})();
