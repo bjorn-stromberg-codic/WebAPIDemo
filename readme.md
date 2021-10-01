@@ -16,3 +16,12 @@ Denna web api har två enkla endpoints, `POST /tag` och `GET /tags`.
 - Jag har en [GitHub Pages](https://bjorn-stromberg-codic.github.io/WebAPIDemo/) som demonstrerar hur api:n kan användas.
 
 All kod jag visar idag finns i denna repon.
+
+## Templates och inställningar använt för demo
+
+![](img/084855.png)
+![](img/084643.png)
+
+### Template för att bygga en React + ASP.NET Core server
+
+![](img/084917.png)
